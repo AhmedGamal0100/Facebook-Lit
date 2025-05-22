@@ -1,26 +1,34 @@
 {
-    "posts": [
-        {
-            "id": 0,
-            "title": "User",
-            "author": "Ahmed",
-            "profileId": 1,
-            "like": false,
-            "postText": "Ahmed Gamal Abdelreheem"
-        }
-    ],
-    "profile": [
-        {
-            "id": 1,
-            "name": "Ahmed Gamal",
-            "userName": "AhmedGamal123",
-            "password": 123456789
-        },
-        {
-            "id": 2,
-            "name": "Mohamed Ziad",
-            "userName": "MohamedZiadl123",
-            "password": 987654321
-        }
-    ]
+  "post": [
+    {
+      "id": "7",
+      "title": "User",
+      "author": "Ahmed",
+      "profileId": 1,
+      "like": true,
+      "postText": "Mohamed Ziad"
+    },
+    {
+      "id": "8",
+      "title": "User",
+      "author": "Ahmed",
+      "profileId": 1,
+      "like": true,
+      "postText": "Ahmed Gamal"
+    }
+  ],
+  "profile": [
+    {
+      "id": "1",
+      "name": "Ahmed Gamal",
+      "userName": "AhmedGamal123",
+      "password": 123456789
+    },
+    {
+      "id": "2",
+      "name": "Mohamed Ziad",
+      "userName": "MohamedZiadl123",
+      "password": 987654321
+    }
+  ]
 }

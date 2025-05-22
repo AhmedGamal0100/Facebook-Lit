@@ -10,6 +10,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Facebook Lite</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://unpkg.com/@google/generative-ai/dist/index.umd.js"></script>
     <script src="assets/js/script.js" defer></script>
 </head>
 
@@ -28,7 +29,11 @@
                 </form>
                 <ul class="header__settings">
                     <li><i class="fa-solid fa-circle-half-stroke fa-2xl"></i></li>
-                    <li><i class="fa-solid fa-bell fa-2xl"></i></li>
+                    <li class="header__bell">
+                        <i class="fa-solid fa-bell fa-2xl"></i>
+                        <div class="header__bell-noitce hidden"></div>
+                        <ul class="header__popup-container"></ul>
+                    </li>
                     <li>
                         <i class="fa-solid fa-circle-user fa-2xl"></i>
                         <!-- add drop down list -->
@@ -72,24 +77,6 @@
                         </form>
                     </div>
                     <ul class="posts__posts-container">
-                        <!-- <li class="posts__post">
-                            <div class="posts__post-header">
-                                <div class="posts__post-img">
-                                    <img src="assets/images/serious-man-3760373.png" alt="Profile image">
-                                </div>
-                                <h3>User Name</h3>
-                            </div>
-                            <div class="posts__post__edit">
-                                <textarea placeholder="What is on your mind?"></textarea>
-                            </div>
-                            <p>This is a sample post content.</p>
-                            <div class="posts__post-actions">
-                                <button class="blue-btn" onClick="likeBehaviour()">Like</button>
-                                <button class="blue-btn">Edit</button>
-                                <button class="red-btn">Delete</button>
-                            </div>
-                        </li> -->
-                        <!-- Repeat posts as needed -->
                     </ul>
                 </div>
             </section>
@@ -107,10 +94,7 @@
                         <button><i class="fa-solid fa-xmark fa-lg"></i></button>
                     </header>
                     <div class="chatport__main">
-                        <div class="chatport__continer">
-                            <img src="" alt="Gemini image">
-                            <p>This is a sample message.</p>
-                        </div>
+                        Content
                     </div>
                     <form class="chatport__message">
                         <textarea type="text" placeholder="Type a message..."></textarea>

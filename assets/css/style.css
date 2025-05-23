@@ -378,9 +378,9 @@ button {
     left: 10px;
 }
 
-.posts__post p {
+.posts__post .posts__content {
     border: 1px solid var(--bg-last);
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     padding: 8px 16px;
     border-radius: 20px;
     width: 100%;
@@ -388,15 +388,11 @@ button {
     line-height: 24px;
 }
 
-.posts__post p:hover {
-    box-shadow: 0 1px 3px var(--shadow), 0 1px 2px var(--shadow);
-    scale: 1.01;
-}
-
 .posts__post-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+    margin-bottom: 8px;
 }
 
 .error {
@@ -406,6 +402,76 @@ button {
     color: var(--color-btn);
     border-radius: 20px;
     font-weight: bolder;
+}
+
+.posts__post ul {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--bg-last);
+    padding: 8px 8px 0px 8px;
+}
+
+.posts__post ul li {
+    width: 100%;
+    background-color: var(--bg-main);
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.posts__post ul li form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px;
+    gap: 8px;
+}
+
+.posts__post ul li form input {
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: var(--bg-main);
+    padding: 8px;
+    border: none;
+}
+
+.posts__post ul li button {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.posts__post ul li .comments__img {
+    width: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.posts__post ul li p {
+    margin-bottom: 0;
+    width: 65%;
+    padding: 4px 16px;
+    border-inline: 2px solid rgba(131, 131, 131, 0.75);
+}
+
+
+.posts__post ul li .comments__actions {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    gap: 8px;
+    margin-bottom: 0px;
+}
+
+.posts__post ul li .comments__actions li {
+    border: none;
+    padding: 0;
 }
 
 /* chat port */

@@ -1,20 +1,28 @@
 {
   "post": [
     {
-      "id": "7",
+      "id": "0",
       "title": "User",
       "author": "Ahmed",
       "profileId": 1,
-      "like": true,
-      "postText": "Mohamed Ziad"
+      "like": "true",
+      "postText": "Ahmed Gamal",
+      "comments": [
+        "Comment 3",
+        "Comment 2"
+      ]
     },
     {
-      "id": "8",
+      "id": "1",
       "title": "User",
       "author": "Ahmed",
       "profileId": 1,
-      "like": true,
-      "postText": "Ahmed Gamal"
+      "like": "true",
+      "postText": "Mohamed Saeeed",
+      "comments": [
+        "Comment 1",
+        "Comment 2"
+      ]
     }
   ],
   "profile": [

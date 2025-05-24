@@ -7,19 +7,24 @@ const searchInout = document.querySelector(".header__search input");
 let id = 0;
 let DataInLocalStorage = {
     modeFlag: false, // False: Light, True: Dark
-    NotificationNumirator: 0
+    NotificationNumirator: 0,
+    isClosedChatPortal: false // False: Opened, True: Closed
 }
 let editingCommentElement = null;
 const GEMINI_API_KEY = "AIzaSyAS0uSxL6yeZO5_1oLH3Rzet7RZQIu5mgQ";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 const chatHistory = [];
-const geminiBtn = document.querySelector(".fa-paper-plane");
-
+const geminiInputBtn = document.querySelector(".fa-paper-plane");
+const chatPortal = document.querySelector(".chatport__header button");
+const geminiCloseBtn = document.querySelector(".chatport");
+const geminiRevealBtn = document.querySelector(".chatport-btn");
+const postsBody = document.querySelector(".posts");
 // ----------------------------------------------------------------
 //  General
 window.addEventListener('beforeunload', function () {
     scrollToTop();
 });
+
 function scrollToTop() {
     window.scrollTo(0, 0);
 }
@@ -30,7 +35,7 @@ forms.forEach(form => {
     })
 })
 
-// Mode & Notification Enumirator
+// Mode & Notification Enumirator & ChatPortal
 if (localStorage.getItem("data")) {
     if (JSON.parse(localStorage.getItem("data")).modeFlag == true) {
         document.querySelector('html').classList.add("dark-mode");
@@ -39,6 +44,13 @@ if (localStorage.getItem("data")) {
     if (JSON.parse(localStorage.getItem("data")).NotificationNumirator > 0) {
         document.querySelector(".header__bell-noitce").classList.remove("hidden");
         DataInLocalStorage.NotificationNumirator = document.querySelector(".header__bell-noitce").innerHTML = JSON.parse(localStorage.getItem("data")).NotificationNumirator;
+    }
+    if (JSON.parse(localStorage.getItem("data")).isClosedChatPortal == true) {
+        closeChatPort();
+        DataInLocalStorage.isClosedChatPortal = true;
+    } else {
+        openChatPort();
+        DataInLocalStorage.isClosedChatPortal = false;
     }
 }
 
@@ -63,8 +75,7 @@ async function getPostsFromDB() {
                         const postContainer = document.querySelector(`[postId = "${obj.id}"]`);
                         const commentBtn = postContainer.querySelector(`[btnFunctionality = "comment"]`);
                         const commentContainer = postContainer.querySelector(".comments-container");
-
-                        previewCommentWindowOnLoad(commentBtn, commentContainer, obj.comments, obj.id, obj.postText);
+                        previewCommentWindowOnLoad(commentBtn, commentContainer, obj.comments, obj.id);
                     }
                 });
                 id++;
@@ -91,10 +102,13 @@ async function addPostInDB(postObj) {
     });
 }
 
-// PUT 
+// Patch 
 async function updatePostInDB(postId, postObj) {
     await fetch(`http://localhost:3000/post/${postId}/`, {
-        method: 'PUT',
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(postObj)
     }).then(response => {
         if (!response.ok) {
@@ -203,14 +217,8 @@ function createPostObj(val) {
     id++;
 }
 
-function addCommentToPostObj(postId, val, comments, isLike) {
+function addCommentToPostObj(postId, comments) {
     const postObj = {
-        "id": postId + "",
-        "title": "User",
-        "author": "Ahmed",
-        "profileId": 1,
-        "like": isLike,
-        "postText": val,
         "comments": comments
     }
     updatePostInDB(postId, postObj)
@@ -300,21 +308,13 @@ function displayPost(val, id, likeStatus) {
 
 // Like Behaviour
 function likeBehaviour(btn) {
-    const comments = getComments(btn);
-
     const postIsLike = btn.parentElement.parentElement.getAttribute("isLike");
     const postId = btn.parentElement.parentElement.getAttribute("postId");
-    const postVal = btn.parentElement.previousSibling.previousSibling.previousSibling.innerHTML;
     if (postIsLike == "false") {
         btn.innerHTML = "Unlike"
         const updatedPostObj = {
-            "id": postId + "",
-            "title": "User",
-            "author": "Ahmed",
-            "profileId": 1,
             "like": true,
-            "postText": postVal,
-            "comments": comments
+
         }
         updatePostInDB(postId, updatedPostObj);
         btn.parentElement.parentElement.setAttribute("isLike", "true");
@@ -325,13 +325,7 @@ function likeBehaviour(btn) {
     else {
         btn.innerHTML = "Like";
         const updatedPostObj = {
-            "id": postId + "",
-            "title": "User",
-            "author": "Ahmed",
-            "profileId": 1,
-            "like": false,
-            "postText": postVal,
-            "comments": comments
+            "like": false
         }
         updatePostInDB(postId, updatedPostObj);
         btn.parentElement.parentElement.setAttribute("isLike", "false");
@@ -350,12 +344,10 @@ function editBehaviour(btn) {
     btn.classList.add("hidden");
     revealContainer.classList.remove("hidden");
     revealContainer.querySelector("textarea").innerHTML = valueToEdit;
-
 }
 
 // Done Behaviour
 function doneBehaviour(btn) {
-    const comments = getComments(btn);
     const hideContainer = btn.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling;
     const ListId = btn.parentElement.parentElement.getAttribute("postId");
     if (hideContainer.querySelector("textarea").value) {
@@ -369,13 +361,8 @@ function doneBehaviour(btn) {
             document.querySelector(`[postId="${ListId}"] .error`).classList.add("hidden");
         }
         const updatedPostObj = {
-            "id": ListId + "",
-            "title": "User",
-            "author": "Ahmed",
-            "profileId": 1,
             "like": false,
-            "postText": valueToEdit,
-            "comments": comments
+            "postText": valueToEdit
         }
         updatePostInDB(ListId, updatedPostObj);
         handleNotificationWhileDeleteAndUpdate(btn);
@@ -403,7 +390,6 @@ async function deleteBehaviour(btn) {
 function commentBehaviour(btn) {
     let comments = [];
     const commentContainer = btn.parentElement.parentElement.querySelector(".comments-container");
-    const postInput = btn.parentElement.parentElement.querySelector(".posts__content").innerHTML;
     const postId = btn.parentElement.parentElement.getAttribute("postId");
 
     let commentContainerForm;
@@ -426,15 +412,15 @@ function commentBehaviour(btn) {
     commentFormAddBtn.setAttribute("behaviour", "add");
     commentFormAddBtn.innerHTML = "add";
     commentFormAddBtn.addEventListener("click", function (e) {
-        addComment(commentContainer, postId, postInput, comments);
-    })
+        addComment(commentContainer, postId, comments);
+    });
 
     commentFormDoneBtn = document.createElement("button");
     commentFormDoneBtn.setAttribute("class", "blue-btn hidden");
     commentFormDoneBtn.setAttribute("behaviour", "edit");
     commentFormDoneBtn.innerHTML = "done";
     commentFormDoneBtn.addEventListener("click", function (e) {
-        doneComment(commentContainer, postId, postInput, comments);
+        doneComment(commentContainer, postId, comments);
     })
 
     commentContainer.appendChild(commentInput);
@@ -444,20 +430,18 @@ function commentBehaviour(btn) {
     commentContainerForm.addEventListener("submit", function (e) { e.preventDefault() });
 }
 
-function addComment(commentContainer, postId, postInput, comments) {
-    const isLike = commentContainer.parentElement.getAttribute("isLike");
+function addComment(commentContainer, postId, comments) {
     const inputValues = commentContainer.querySelector("input");
     if (inputValues.value) {
         let inputValue = inputValues.value;
         comments.push(inputValue);
-        addCommentToPostObj(postId, postInput, comments, isLike);
+        addCommentToPostObj(postId, comments);
         displayComment(commentContainer, inputValue);
         inputValues.value = "";
     }
 }
 
 function doneComment(commentContainer, postId, postInput, comments) {
-    const isLike = commentContainer.parentElement.getAttribute("isLike");
     const inputValues = commentContainer.querySelector("input");
     if (inputValues.value) {
         let inputValue = inputValues.value;
@@ -468,12 +452,12 @@ function doneComment(commentContainer, postId, postInput, comments) {
             comments.push(inputValue);
             displayComment(commentContainer, inputValue);
         }
-        addCommentToPostObj(postId, postInput, getCommentsForDoneBtn(commentContainer), isLike);
+        addCommentToPostObj(postId, getCommentsForDoneBtn(commentContainer));
         inputValues.value = "";
     }
-    commentContainer.parentElement.querySelector("[behaviour = 'edit']").classList.add("hidden")
-    commentContainer.parentElement.querySelector("[behaviour = 'add']").classList.remove("hidden")
-    commentContainer.parentElement.querySelectorAll("button").forEach(btn => {
+    commentContainer.querySelector("[behaviour = 'edit']").classList.add("hidden")
+    commentContainer.querySelector("[behaviour = 'add']").classList.remove("hidden")
+    commentContainer.querySelectorAll("button").forEach(btn => {
         if (!btn.getAttribute("behaviour")) {
             btn.disabled = false;
         }
@@ -496,7 +480,7 @@ function displayComment(commentContainer, inputValue) {
     commentBtnEdit.setAttribute("class", "blue-btn");
     commentBtnEdit.innerHTML = "edit";
     commentBtnEdit.addEventListener("click", function (e) {
-        btnEditComments();
+        btnEditComments(e);
     })
     commentBtnEditContainer.appendChild(commentBtnEdit)
     const commentBtnDeleteContainer = document.createElement("li");
@@ -525,7 +509,7 @@ function handleNotificationWhileDeleteAndUpdate(btn) {
     }
 }
 
-function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, postId, postInput) {
+function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, postId) {
 
     commentContainer.classList.remove("hidden")
     let commentContainerForm;
@@ -544,7 +528,7 @@ function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, p
     commentFormAddBtn.setAttribute("behaviour", "add");
     commentFormAddBtn.innerHTML = "add";
     commentFormAddBtn.addEventListener("click", function (e) {
-        addComment(commentContainer, postId, postInput, inputValues);
+        addComment(commentContainer, postId, inputValues);
     })
 
     commentFormDoneBtn = document.createElement("button");
@@ -552,7 +536,7 @@ function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, p
     commentFormDoneBtn.setAttribute("behaviour", "edit");
     commentFormDoneBtn.innerHTML = "done";
     commentFormDoneBtn.addEventListener("click", function (e) {
-        doneComment(commentContainer, postId, postInput, inputValues);
+        doneComment(commentContainer, postId, inputValues);
     })
 
     commentContainer.appendChild(commentInput);
@@ -631,19 +615,40 @@ function btnEditComments(e) {
 function deleteEditComments(e) {
     let commentsText = [];
     const deletetdElement = e.target.parentElement.parentElement.parentElement;
-    const isLike = deletetdElement.parentElement.parentElement.getAttribute("isLike");
-    const postInput = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector(".posts__content").innerHTML;
     const postId = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("postId");
     deletetdElement.classList.add("hidden");
     const comments = e.target.parentElement.parentElement.parentElement.parentElement.querySelectorAll(".comments__comment");
     const filteredCommentsArray = Array.prototype.slice.call(comments).filter(x => !x.classList.contains("hidden"));
     filteredCommentsArray.forEach(element => commentsText.push(element.querySelector("p").innerHTML));
     deletetdElement.remove();
-    addCommentToPostObj(postId, postInput, commentsText, isLike);
+    addCommentToPostObj(postId, commentsText);
 }
 
 // ----------------------------------------------------------------
 // Chat Portal
+geminiCloseBtn.querySelector(".fa-xmark").parentElement.addEventListener("click", function () {
+    DataInLocalStorage.isClosedChatPortal = true;
+    localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
+    closeChatPort();
+})
+
+function closeChatPort() {
+    geminiCloseBtn.classList.add("hidden");
+    geminiRevealBtn.classList.remove("hidden");
+    postsBody.classList.add("posts-full-width")
+}
+
+geminiRevealBtn.querySelector("button").parentElement.addEventListener("click", function (e) {
+    DataInLocalStorage.isClosedChatPortal = false;
+    localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
+    openChatPort();
+})
+
+function openChatPort() {
+    geminiCloseBtn.classList.remove("hidden");
+    geminiRevealBtn.classList.add("hidden");
+    postsBody.classList.remove("posts-full-width")
+}
 
 // Gemini Setup
 async function generateResponse(userMessage) {
@@ -652,36 +657,52 @@ async function generateResponse(userMessage) {
         parts: [{ text: userMessage }]
     });
     try {
-        await fetch(API_URL, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 contents: chatHistory
             })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        }).then(data => {
-            const geminiReply = data.candidates?.[0]?.content?.parts?.[0].text || "No response";
-            chatHistory.push({
-                role: "model",
-                parts: [{ text: geminiReply }]
-            });
-            console.log("Gemini:", geminiReply);
-            return geminiReply
-
-        })
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.json();
+        // Get the reply text (adjust if needed)
+        const geminiReply = data.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*([^*]+)\*\*/g, "$1") || "No response";
+        chatHistory.push({
+            role: "model",
+            parts: [{ text: geminiReply }]
+        });
+        console.log("Gemini:", geminiReply);
+        return geminiReply;
     } catch (error) {
         console.error(error);
         return "Sorry, there was an error.";
     }
 }
 
-geminiBtn.addEventListener("click", function (e) {
+geminiInputBtn.parentElement.addEventListener("click", async function (e) {
     const textInput = e.target.parentElement.parentElement.querySelector("textarea");
+    const chatContainer = document.querySelector(".chatport__chat-container");
+
     if (textInput.value != "") {
-        generateResponse(textInput.value)
+        chatContainer.innerHTML += `<p class="chatport__user">${textInput.value}</p>`;
+        const tempDiv = document.createElement("div");
+        tempDiv.className = "chatport__gemini";
+        tempDiv.innerHTML = `
+            <div class="chatport__gemini-img rotate">
+                <img src="assets/images/google-gemini-icon.svg" alt="gemini-icon">
+            </div>
+            <p class="chatport__chat-init">Just a sec...</p>
+        `;
+        chatContainer.appendChild(tempDiv);
+        await new Promise(resolve => setTimeout(resolve, 600))
+        const geminiReply = await generateResponse(textInput.value.trim());
+        // typingEffect(geminiReply,) -->
+        tempDiv.querySelector(".chatport__chat-init").innerHTML = (geminiReply || "No response").replace(/\n/g, "<br>");;
+
+        textInput.value = "";
+
     }
 })

@@ -5,23 +5,10 @@
       "title": "User",
       "author": "Ahmed",
       "profileId": 1,
-      "like": "true",
-      "postText": "Ahmed Gamal",
+      "like": true,
+      "postText": "Ahmed Gamal Abdelreheem",
       "comments": [
-        "Comment 3",
-        "Comment 2"
-      ]
-    },
-    {
-      "id": "1",
-      "title": "User",
-      "author": "Ahmed",
-      "profileId": 1,
-      "like": "true",
-      "postText": "Mohamed Saeeed",
-      "comments": [
-        "Comment 1",
-        "Comment 2"
+        "Hello Ahmed"
       ]
     }
   ],

@@ -668,7 +668,6 @@ async function generateResponse(userMessage) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
         const data = await response.json();
-        // Get the reply text (adjust if needed)
         const geminiReply = data.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*([^*]+)\*\*/g, "$1") || "No response";
         chatHistory.push({
             role: "model",

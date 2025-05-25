@@ -255,6 +255,56 @@ button {
     }
 }
 
+.header__profile {
+    position: relative;
+}
+
+
+.header__profile-dropdown {
+    padding: 16px;
+    top: 50px;
+    position: absolute;
+    width: 200px;
+    background-color: var(--white);
+    right: 0;
+    border-radius: 20px;
+    display: none;
+    box-shadow: 0px 1px 3px 1px var(--shadow), 0px 1px 3px 1px var(--shadow);
+}
+
+.header__profile:focus-within .header__profile-dropdown {
+    display: block;
+}
+
+.header__profile-img {
+    padding: 16px;
+    border-bottom: solid 2px rgba(131, 131, 131, 0.75);
+}
+
+.header__profile-img img {
+    padding: 2px;
+    border: solid 10px rgba(131, 131, 131, 0.75);
+    border-radius: 50%;
+}
+
+.header__profile-dropdown li h3,
+.header__profile-dropdown li a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-align: center;
+}
+
+.header__profile-dropdown li a {
+    background-color: var(--bg-main);
+    border: 1px solid var(--bg-last);
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.header__profile-dropdown li a:hover {
+    color: var(--btn-blue);
+}
 
 /* Body after header*/
 .body {

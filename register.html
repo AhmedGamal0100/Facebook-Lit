@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link type="image/png" rel="icon" href="assets/images/square-facebook-brands.svg">
+    <link rel="stylesheet" href="assets/css/register.css">
+    <title>Facebook Lite Register</title>
+    <script src="assets/js/register.js" defer></script>
+</head>
+
+<body class="register">
+    <div class="container">
+        <div class="register__header">
+            <img src="assets/images/square-facebook-brands.svg" alt="Logo" class="register__logo">
+            <h2>Sign Up</h2>
+        </div>
+        <form class="register__form">
+            <div class="register__input-group">
+                <label for="name"><i class="fa fa-user"></i></label>
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
+            </div>
+            <div class="register__input-group">
+                <label for="email"><i class="fa fa-envelope"></i></label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="email-error error hidden">
+                <p>This email is already exist!</p>
+            </div>
+            <div class="register__input-group">
+                <label for="password"><i class="fa fa-lock"></i></label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="register__input-group">
+                <label for="confirm-password"><i class="fa fa-lock"></i></label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password"
+                    required>
+            </div>
+            <div class="password-error error hidden">
+                <p>The passwords dosen't match!</p>
+            </div>
+            <div class="register__login-links">
+                <button type="submit" class="blue-btn login-btn">Register</button>
+                <a href="login.html">Already have an account?</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

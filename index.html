@@ -4,129 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="image/png" rel="icon" href="assets/images/square-facebook-brands.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Facebook Lite</title>
+    <link type="image/png" rel="icon" href="assets/images/square-facebook-brands.svg">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="https://unpkg.com/@google/generative-ai/dist/index.umd.js"></script>
+    <title>Facebook Lite Login</title>
     <script src="assets/js/script.js" defer></script>
 </head>
 
-<body>
-    <main>
-
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <div class="header__img">
-                    <a href="#"><img src="assets/images/square-facebook-brands.svg" alt="Facebook icon image"></a>
-                </div>
-                <form class="header__search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Search Facebook Pro">
-                </form>
-                <ul class="header__settings">
-                    <li><i class="fa-solid fa-circle-half-stroke fa-2xl"></i></li>
-                    <li class="header__bell">
-                        <i class="fa-solid fa-bell fa-2xl"></i>
-                        <div class="header__bell-noitce hidden"></div>
-                        <ul class="header__popup-container"></ul>
-                    </li>
-                    <li class="header__profile">
-                        <i class="fa-solid fa-circle-user fa-2xl btn-profile" tabindex="0"></i>
-                        <ul class="header__profile-dropdown">
-                            <li class="header__profile-img"><img src="assets/images/serious-man-3760373.png"></li>
-                            <li>
-                                <h3>User Name</h3>
-                            </li>
-                            <li><a href="#">Log out</a></li>
-                        </ul>
-                    </li>
-                </ul>
+<body class="login">
+    <div class="container">
+        <div class="login__header">
+            <img src="assets/images/square-facebook-brands.svg" alt="Logo" class="login__login-logo">
+            <h2>Facebook Lite</h2>
+        </div>
+        <form class="login__login-form">
+            <div class="login__input-group">
+                <label for="email"><i class="fa fa-user"></i></label>
+                <input type="text" id="email" name="email" placeholder="Email" required>
             </div>
-        </header>
-
-        <!-- Body -->
-        <section class="body">
-            <!-- Vertical Nav -->
-            <nav class="vertical-nav">
-                <div class="container">
-                    <ul class="vertical-nav__icons">
-                        <li><a href=""><i class="fa-solid fa-house fa-2xl"></i></a></li>
-                        <li><a href=""><i class="fa-solid fa-user-group fa-2xl"></i></a></li>
-                        <li><a href=""><i class="fa-solid fa-store fa-2xl"></i></a></li>
-                        <li><a href=""><i class="fa-solid fa-video fa-2xl"></i></a></li>
-                        <li><a href=""><i class="fa-solid fa-images fa-2xl"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Posts body -->
-            <section class="posts">
-                <div class="container">
-                    <header class="posts__header">
-                        <h1>Facebook Lite...</h1>
-                    </header>
-                    <div class="posts__main-form">
-                        <h2>What's on your mind?</h2>
-                        <form>
-                            <div class="posts__input">
-                                <div class="posts__img">
-                                    <img src="assets/images/serious-man-3760373.png" alt="Profile image">
-                                </div>
-                                <!-- Textarea Auto resize & Scroll none -->
-                                <textarea placeholder="What is on your mind?"></textarea>
-                            </div>
-                            <button class="blue-btn" type="submit">Create</button>
-                        </form>
-                    </div>
-                    <ul class="posts__posts-container">
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Chat port -->
-            <section class="chatport">
-                <div class="container">
-                    <header class="chatport__header">
-                        <div class="chatport__gemini-logo">
-                            <div class="chatport__gemini-logo__img">
-                                <img src="assets/images/google-gemini-icon.svg" alt="gemini logo">
-                            </div>
-                            <h2>Gemini</h2>
-                        </div>
-                        <button><i class="fa-solid fa-xmark fa-lg"></i></button>
-                    </header>
-                    <div class="chatport__chat">
-                        <div class="chatport__chat-container">
-                            <h2 class="chatport__chat-welcome">Hello, there</h2>
-                            <div class="chatport__gemini">
-                                <div class="chatport__gemini-img rotate">
-                                    <img src="assets/images/google-gemini-icon.svg" alt="gemini-icon">
-                                </div>
-                                <p class="chatport__chat-init">How can I help you today?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <form class="chatport__message">
-                        <textarea type="text" placeholder="Type a message..."></textarea>
-                        <button type="submit"><i class="fa-solid fa-paper-plane fa-lg"></i></button>
-                    </form>
-                </div>
-            </section>
-
-            <!-- Chat port btn -->
-            <section class="chatport-btn">
-                <div class="container">
-                    <button class="chatport-btn__btn">
-                        <img src="assets/images/google-gemini-icon.svg" alt="chatport button">
-                    </button>
-                </div>
-            </section>
-        </section>
-    </main>
+            <div class="login__input-group">
+                <label for="password"><i class="fa fa-lock"></i></label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="login-error error hidden">
+                <p>The email or passwords dosen't match, you can register!</p>
+            </div>
+            <div class="login__login-links">
+                <button type="submit" class="blue-btn login-btn">Log in</button>
+                <a href="register.html" class="blue-btn login-btn">Create new account</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

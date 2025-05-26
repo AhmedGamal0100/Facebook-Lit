@@ -1,83 +1,52 @@
 {
   "post": [
     {
-      "id": "0",
+      "id": "2",
       "title": "User",
-      "author": "Ahmed",
-      "profileId": 1,
-      "like": true,
-      "postText": "Ahmed Gamal Abdelreheem",
+      "author": "Ahmed Gamal",
+      "profileId": "1",
+      "like": false,
+      "postText": "hi",
       "comments": [
-        "Hello Ahmed"
-      ]
+        {
+          "authorId": "1",
+          "authorImgURL": "assets/images/R.jpg",
+          "text": "fasdfzxcvzxc"
+        }
+      ],
+      "imgURL": "assets/images/R.jpg"
+    },
+    {
+      "id": "3",
+      "title": "User",
+      "author": "Mohamed Elsayed",
+      "profileId": "0",
+      "like": false,
+      "postText": "fasdf",
+      "comments": [
+        {
+          "authorId": "1",
+          "authorImgURL": "assets/images/R.jpg",
+          "text": "fasdfasd"
+        }
+      ],
+      "imgURL": "assets/images/serious-man-3760373.png"
     }
   ],
   "profile": [
     {
       "id": "0",
-      "userName": "Ahmed Gamal",
-      "email": "ahmedgamal123@gmail.com",
-      "password": 1234
+      "userName": "Mohamed Elsayed",
+      "email": "admin@gmail.com",
+      "password": 1234,
+      "imgURL": "assets/images/serious-man-3760373.png"
     },
     {
       "id": "1",
-      "userName": "Ziad Elsayed",
-      "email": "ziadelsyaed1@gmail.com",
-      "password": 1234
-    },
-    {
-      "id": "2",
       "userName": "Ahmed Gamal",
-      "email": "ahmed.g.abdelreheem@myparadigm.com",
-      "password": "123"
-    },
-    {
-      "id": "3",
-      "userName": "Ahmed Gamal",
-      "email": "ahmed@myparadigm.com",
-      "password": "123"
-    },
-    {
-      "id": "4",
-      "userName": "Ahmed Gamal",
-      "email": "ahmed.g.abdeleem@myparadigm.com",
-      "password": "123"
-    },
-    {
-      "id": "5",
-      "userName": "Ahmed",
-      "email": "ahmed.g.abdelreh@myparadigm.com",
-      "password": "5261771"
-    },
-    {
-      "id": "6",
-      "userName": "Ahmed Gamal",
-      "email": "ahmed.g.abdelre@myparadigm.com",
-      "password": "5261771Aa"
-    },
-    {
-      "id": "7",
-      "userName": "Ahmed Gamal",
-      "email": "ahmed.g@myparadigm.com",
-      "password": "1661661"
-    },
-    {
-      "id": "8",
-      "userName": "AhmedBeso520",
-      "email": "ahmedgamal1234@gmail.com",
-      "password": "1239123"
-    },
-    {
-      "id": "9",
-      "userName": "Ahmed Gamal",
-      "email": "13aaa@myparadigm.com",
-      "password": "525252"
-    },
-    {
-      "id": "10",
-      "userName": "Ahmed Gamal",
-      "email": "ahm@myparadigm.com",
-      "password": "123"
+      "email": "ahmedgamal124720000@gmail.com",
+      "password": "123",
+      "imgURL": "assets/images/R.jpg"
     }
   ]
 }

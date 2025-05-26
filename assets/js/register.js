@@ -4,7 +4,10 @@ const fullName = document.querySelector("#name");
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 const confirmPassword = document.querySelector("#confirm-password");
+const picInput = document.getElementById("profile-pic");
+const picPreview = document.getElementById("pic-preview");
 let profiles;
+let imgURL;
 // ---------------------------------------------------
 // General
 
@@ -53,6 +56,17 @@ async function addProfilesFInDb(profileObj) {
 }
 
 // ---------------------------------------------------
+picInput.addEventListener("change", function () {
+    const file = picInput.files[0];
+    if (file) {
+        document.querySelector(".register__pic-preview").classList.remove("hidden");
+        picPreview.src = `assets/images/${file.name}`;
+        imgURL = `assets/images/${file.name}`;
+        console.log(imgURL);
+        
+    }
+});
+
 // Register
 registerForm.addEventListener("submit", function (e) {
     let flag = false;
@@ -70,7 +84,7 @@ registerForm.addEventListener("submit", function (e) {
             if (!document.querySelector(".password-error").classList.contains("hidden")) {
                 document.querySelector(".password-error").classList.add("hidden");
             }
-            createProfileObj(fullName.value, email.value, password.value);
+            createProfileObj(fullName.value, email.value, password.value, imgURL);
         }
         else {
             document.querySelector(".password-error").classList.remove("hidden");
@@ -81,13 +95,14 @@ registerForm.addEventListener("submit", function (e) {
     }
 })
 
-function createProfileObj(fullName, email, password) {
+function createProfileObj(fullName, email, password, imgURL) {
     const profileObj = {
         "id": id + "",
         "userName": fullName,
         "email": email,
-        "password": password
+        "password": password,
+        "imgURL": imgURL
     }
     addProfilesFInDb(profileObj);
-    window.open("login.html", "_self");
+    window.open("index.html", "_self");
 }

@@ -67,7 +67,7 @@ if (localStorage.getItem("data")) {
 // GET
 async function getPostsFromDB() {
     document.querySelector(".posts__posts-container").innerHTML = "";
-    await fetch('http://localhost:3000/post')
+    await fetch('https://pricey-stream-makeup.glitch.me/post')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -99,7 +99,7 @@ getPostsFromDB()
 
 // POST
 async function addPostInDB(postObj) {
-    await fetch('http://localhost:3000/post', {
+    await fetch('https://pricey-stream-makeup.glitch.me/post', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ async function addPostInDB(postObj) {
 
 // PATCH
 async function updatePostInDB(postId, postObj) {
-    await fetch(`http://localhost:3000/post/${postId}`, {
+    await fetch(`https://pricey-stream-makeup.glitch.me/post/${postId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ async function updatePostInDB(postId, postObj) {
 
 // Delete
 async function deletePostInDB(postId) {
-    await fetch(`http://localhost:3000/post/${postId}`, {
+    await fetch(`https://pricey-stream-makeup.glitch.me/post/${postId}`, {
         method: 'DELETE',
     }).then(response => {
         if (!response.ok) {

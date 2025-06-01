@@ -14,7 +14,7 @@ let imgURL;
 // GET
 async function getProfilesFromDb() {
     try {
-        const response = await fetch('http://localhost:3000/profile')
+        const response = await fetch('https://pricey-stream-makeup.glitch.me/profile')
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
@@ -39,7 +39,7 @@ initProfiles();
 // POST
 async function addProfilesFInDb(profileObj) {
     try {
-        const response = await fetch('http://localhost:3000/profile', {
+        const response = await fetch('https://pricey-stream-makeup.glitch.me/profile', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(profileObj)

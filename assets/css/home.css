@@ -498,6 +498,7 @@ button {
     align-items: center;
     gap: 8px;
     position: relative;
+
 }
 
 .posts__post ul li form {
@@ -517,6 +518,7 @@ button {
     background-color: var(--bg-main);
     padding: 8px;
     border: none;
+
 }
 
 .posts__post ul li button {
@@ -752,4 +754,73 @@ button {
 
 .chatport-btn__btn img {
     scale: 2;
+}
+
+@media (max-width: 768px) {
+    .vertical-nav {
+        display: none;
+    }
+
+    .posts {
+        width: 100%;
+        padding-left: 0;
+        min-width: 375px;
+    }
+
+    .chatport {
+        position: fixed;
+        width: 90%;
+        min-width: unset;
+        top: 82.7px;
+        bottom: 0;
+        z-index: 2000;
+    }
+}
+
+@media (max-width: 425px) {
+    h1 {
+        font-size: 36px;
+        line-height: 64px;
+    }
+
+    h2 {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 52px;
+    }
+
+    .header__search {
+        display: none;
+    }
+
+    .header__burger {
+        display: block;
+    }
+
+    .posts__post-actions {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .posts__post-actions .red-btn {
+        width: 100%;
+    }
+
+    .posts__post li {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .posts__post ul li p {
+        width: 100%;
+        padding-inline: 18px;
+        border: 1px solid var(--bg-last);
+        border-radius: 20px;
+        margin-inline: 0;
+    }
+
+    .posts__main-form form .blue-btn {
+        width: 100%;
+        align-self: center;
+    }
 }

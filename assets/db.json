@@ -5,13 +5,18 @@
       "title": "User",
       "author": "Ahmed Gamal",
       "profileId": "1",
-      "like": false,
-      "postText": "hi",
+      "like": true,
+      "postText": "Hello Ahmed",
       "comments": [
         {
           "authorId": "1",
           "authorImgURL": "assets/images/R.jpg",
-          "text": "fasdfzxcvzxc"
+          "text": "Hello Ahmed"
+        },
+        {
+          "authorId": "0",
+          "authorImgURL": "assets/images/serious-man-3760373.png",
+          "text": "Hello Mohamed"
         }
       ],
       "imgURL": "assets/images/R.jpg"
@@ -21,13 +26,18 @@
       "title": "User",
       "author": "Mohamed Elsayed",
       "profileId": "0",
-      "like": false,
-      "postText": "fasdf",
+      "like": true,
+      "postText": "Greeting from me",
       "comments": [
         {
           "authorId": "1",
           "authorImgURL": "assets/images/R.jpg",
-          "text": "fasdfasd"
+          "text": "How're you Bro"
+        },
+        {
+          "authorId": "0",
+          "authorImgURL": "assets/images/serious-man-3760373.png",
+          "text": "All is good"
         }
       ],
       "imgURL": "assets/images/serious-man-3760373.png"

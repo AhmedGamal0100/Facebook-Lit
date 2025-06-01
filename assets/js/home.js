@@ -20,13 +20,16 @@ const geminiCloseBtn = document.querySelector(".chatport");
 const geminiRevealBtn = document.querySelector(".chatport-btn");
 const postsBody = document.querySelector(".posts");
 let profile = {};
+
 // ----------------------------------------------------------------
 //  General
+
+// Gets the logged in profile informations and use them
 profile = JSON.parse(sessionStorage.getItem("loginProfile"));
 document.querySelector(".header__profile-dropdown h3").innerHTML = profile.userName;
 document.querySelector(".header__profile-img img").setAttribute("src", `${profile.imgURL}`)
 
-
+// When refreshing the page scroll to the top of it
 window.addEventListener('beforeunload', function () {
     scrollToTop();
 });
@@ -35,6 +38,7 @@ function scrollToTop() {
     window.scrollTo(0, 0);
 }
 
+// Forms stop propagation
 forms.forEach(form => {
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -108,7 +112,7 @@ async function addPostInDB(postObj) {
     });
 }
 
-// Patch 
+// PATCH
 async function updatePostInDB(postId, postObj) {
     await fetch(`http://localhost:3000/post/${postId}`, {
         method: 'PATCH',
@@ -133,8 +137,11 @@ async function deletePostInDB(postId) {
         }
     });
 }
+
 // ----------------------------------------------------------------
 // Navbar
+
+// Dark and light mode & save its flag inside the local storage
 mode.parentElement.addEventListener('click', function () {
     document.querySelector('html').classList.toggle("dark-mode");
     if (!DataInLocalStorage.modeFlag) {
@@ -147,16 +154,16 @@ mode.parentElement.addEventListener('click', function () {
     }
 })
 
-// Alert DOT Behaviour when like
+// Get the number of the liked posts and set its enumirator in the page & local storage
 function addNotificationNumirator() {
     if (DataInLocalStorage.NotificationNumirator > 0) {
         document.querySelector(".header__bell-noitce").classList.remove("hidden");
         document.querySelector(".header__bell-noitce").innerHTML = DataInLocalStorage.NotificationNumirator;
         localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
     }
-
 }
 
+// Remove the enumirator in the page
 function removeNotificationNumirator() {
     if (DataInLocalStorage.NotificationNumirator <= 0 | DataInLocalStorage.NotificationNumirator == "") {
         document.querySelector(".header__bell-noitce").innerHTML = DataInLocalStorage.NotificationNumirator = "";
@@ -168,6 +175,7 @@ function removeNotificationNumirator() {
     localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
 }
 
+// Ainmation when press like
 function animateLikeNotification() {
     const popupContainer = document.querySelector(".header__popup-container");
     const popupElement = document.createElement("li");
@@ -181,7 +189,7 @@ function animateLikeNotification() {
 
 bellNotificationBtn.addEventListener("click", animateLikeNotification);
 
-// Search
+// Search event
 searchInout.addEventListener("input", function (e) {
     const searchValue = e.target.value.toLowerCase();
     let postsArray = Array.from(document.querySelectorAll(".posts__post"))
@@ -203,11 +211,14 @@ function logOut() {
     sessionStorage.removeItem("loginProfile");
     window.open("index.html", "_self")
 }
+
 // ----------------------------------------------------------------
 // Posts Section
 
+// Set the image of creating the post
 document.querySelector(".posts__img img").setAttribute("src", `${profile.imgURL}`)
 
+// Add new post event
 addBtn.addEventListener("click", function (e) {
     if (inputValues.value) {
         let inputValue = inputValues.value;
@@ -217,6 +228,7 @@ addBtn.addEventListener("click", function (e) {
     }
 })
 
+// Creating new object of the post and add it in the db
 function createPostObj(val) {
     const postObj = {
         "id": id + "",
@@ -232,6 +244,7 @@ function createPostObj(val) {
     id++;
 }
 
+// Add new comment data in the post object inside the db
 function addCommentToPostObj(postId, comments) {
     const postObj = {
         "comments": comments
@@ -321,7 +334,7 @@ function displayPost(val, id, likeStatus, userName, URL) {
     container.appendChild(postBody);
 }
 
-// Like Behaviour
+// Like button to like the post
 function likeBehaviour(btn) {
     const postIsLike = btn.parentElement.parentElement.getAttribute("isLike");
     const postId = btn.parentElement.parentElement.getAttribute("postId");
@@ -349,7 +362,7 @@ function likeBehaviour(btn) {
     }
 }
 
-// Edit Behaviour
+// Edit button to edit the post
 function editBehaviour(btn) {
     const postId = btn.parentElement.parentElement.getAttribute("postId");
     const revealContainer = btn.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling;
@@ -361,7 +374,7 @@ function editBehaviour(btn) {
     revealContainer.querySelector("textarea").innerHTML = valueToEdit;
 }
 
-// Done Behaviour
+// Done button to finish editing the post
 function doneBehaviour(btn) {
     const hideContainer = btn.parentElement.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling;
     const ListId = btn.parentElement.parentElement.getAttribute("postId");
@@ -393,7 +406,7 @@ function doneBehaviour(btn) {
     }
 }
 
-// Delete Behaviour
+// Delete button to delete the post
 async function deleteBehaviour(btn) {
     const postId = btn.parentElement.parentElement.getAttribute("postId");
     btn.parentElement.parentElement.remove();
@@ -401,7 +414,7 @@ async function deleteBehaviour(btn) {
     handleNotificationWhileDeleteAndUpdate(btn)
 }
 
-// Comment Behaviour
+// Comment button to display the new comment section in the post
 function commentBehaviour(btn) {
     let comments = [];
     const commentContainer = btn.parentElement.parentElement.querySelector(".comments-container");
@@ -445,6 +458,7 @@ function commentBehaviour(btn) {
     commentContainerForm.addEventListener("submit", function (e) { e.preventDefault() });
 }
 
+// Add new comment
 function addComment(commentContainer, postId) {
     comments = getCommentsForDoneBtn(commentContainer);
     const inputValues = commentContainer.querySelector("input");
@@ -462,6 +476,7 @@ function addComment(commentContainer, postId) {
     }
 }
 
+// Done editing the comment
 function doneComment(commentContainer, postId, comments) {
     const inputValues = commentContainer.querySelector("input");
     if (inputValues.value) {
@@ -493,6 +508,7 @@ function doneComment(commentContainer, postId, comments) {
     })
 }
 
+// Display the comment inside the comment list
 function displayComment(commentContainer, commentObj) {
     const comment = document.createElement("li");
     comment.setAttribute("class", "comments__comment");
@@ -527,6 +543,7 @@ function displayComment(commentContainer, commentObj) {
 
 }
 
+// Notification behaviour when delete or update the post 
 function handleNotificationWhileDeleteAndUpdate(btn) {
     if (btn.parentElement.parentElement.getAttribute("isLike") == "true") {
         DataInLocalStorage.NotificationNumirator--;
@@ -540,6 +557,7 @@ function handleNotificationWhileDeleteAndUpdate(btn) {
     }
 }
 
+// General preview for the comment when refresh the page
 function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, postId) {
     commentContainer.classList.remove("hidden")
     let commentContainerForm;
@@ -612,6 +630,7 @@ function previewCommentWindowOnLoad(commentBtn, commentContainer, inputValues, p
     });
 }
 
+// Getting all the comments tahat exist in the project for general uses based on the comments container
 function getCommentsForDoneBtn(commentContainer) {
     let comments = [];
     commentContainer.querySelectorAll(".comments__comment").forEach(x => {
@@ -624,6 +643,7 @@ function getCommentsForDoneBtn(commentContainer) {
     return comments;
 }
 
+// Getting all the comments tahat exist in the project for general uses based on the button
 function getComments(btn) {
     let comments = [];
     btn.parentElement.nextSibling.querySelectorAll(".comments__comment").forEach(x => {
@@ -636,6 +656,7 @@ function getComments(btn) {
     return comments
 }
 
+// Edit comment button & disable all the other buttons when editing
 function btnEditComments(e) {
     const commentContainer = e.target.parentElement.parentElement.parentElement;
     editingCommentElement = commentContainer;
@@ -652,6 +673,7 @@ function btnEditComments(e) {
     }
 }
 
+// Delete the comment
 function deleteEditComments(e) {
     let commentsArr = [];
     const deletetdElement = e.target.parentElement.parentElement.parentElement;
@@ -672,6 +694,8 @@ function deleteEditComments(e) {
 
 // ----------------------------------------------------------------
 // Chat Portal
+
+// Close Gemini chat portal
 geminiCloseBtn.querySelector(".fa-xmark").parentElement.addEventListener("click", function () {
     DataInLocalStorage.isClosedChatPortal = true;
     localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
@@ -684,6 +708,7 @@ function closeChatPort() {
     postsBody.classList.add("posts-full-width")
 }
 
+// Reveal Gemini chat portal
 geminiRevealBtn.querySelector("button").parentElement.addEventListener("click", function (e) {
     DataInLocalStorage.isClosedChatPortal = false;
     localStorage.setItem("data", JSON.stringify(DataInLocalStorage));
@@ -726,6 +751,7 @@ async function generateResponse(userMessage) {
     }
 }
 
+// Gemini Display functionality
 geminiInputBtn.parentElement.addEventListener("click", async function (e) {
     const textInput = e.target.parentElement.parentElement.querySelector("textarea");
     const chatContainer = document.querySelector(".chatport__chat-container");
@@ -743,10 +769,7 @@ geminiInputBtn.parentElement.addEventListener("click", async function (e) {
         chatContainer.appendChild(tempDiv);
         await new Promise(resolve => setTimeout(resolve, 600))
         const geminiReply = await generateResponse(textInput.value.trim());
-        // typingEffect(geminiReply,) -->
-        tempDiv.querySelector(".chatport__chat-init").innerHTML = (geminiReply || "No response").replace(/\n/g, "<br>");;
-
+        tempDiv.querySelector(".chatport__chat-init").innerHTML = (geminiReply || "No response").replace(/\n/g, "<br>");
         textInput.value = "";
-
     }
 })

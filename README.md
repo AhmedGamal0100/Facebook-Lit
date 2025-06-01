@@ -23,3 +23,8 @@
   <li>Responsive (On Progress.)</li>
   <li>Refining the posts and comments operations</li>
 </ul>
+<h2>NOTE: Intital Accounts:</h2>
+<ul>
+  <li>email:admin@gmail.com | pass:1234</li>
+  <li>email:ahmedgamal124720000@gmail.com | pass:123</li>
+</ul>
